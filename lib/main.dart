@@ -23,27 +23,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key) {}
 
-  void _showOkDialog(BuildContext context, String title, String content) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var showSeven = true;
@@ -112,14 +91,19 @@ class MyHomePage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(width: 50.0),
                   buildButton(num: 0),
-                  SizedBox(width: 20.0),
-                  Icon(
-                    Icons.backspace,
-                    size: 50,
-                    color: Colors.black54,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.backspace,
+                        size: 50,
+                        color: Colors.black54,
+                      ),
+                    ],
                   ),
                 ],
               ),
