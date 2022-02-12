@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 void main() {
   const app = MyApp();
@@ -20,13 +20,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  static const buttonSize = 70.0;
+
   MyHomePage({Key? key}) : super(key: key) {}
 
   @override
-  Widget build(BuildContext context) {
-    var showSeven = true;
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
+  String _input = '';
+  var _num = 0;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -71,45 +79,61 @@ class MyHomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var i = 1; i <= 3; i++) buildButton(num: i),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var i = 4; i <= 6; i++) buildButton(num: i),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var i = 7; i <= 9; i++) buildButton(num: i),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(width: 50.0),
-                  buildButton(num: 0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Icon(
-                        Icons.backspace,
-                        size: 50,
-                        color: Colors.black54,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 0; i < 6; i++)
+                      Container(
+                        width: 20.0,
+                        height: 20.0,
+                        margin: EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ],
-                  ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildButton(1),
+                  buildButton(2),
+                  buildButton(3),
                 ],
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text('ลืมรหัสผ่าน'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildButton(4),
+                  buildButton(5),
+                  buildButton(6),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildButton(7),
+                  buildButton(8),
+                  buildButton(9),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: MyHomePage.buttonSize,
+                      height: MyHomePage.buttonSize,
+                    ),
+                  ),
+                  buildButton(0),
+                  buildButton(-1),
+                ],
               ),
             ],
           ),
@@ -118,28 +142,51 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget buildButton({int? num}) {
+  Widget buildButton(int num) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 75.0,
-        height: 75.0,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey, width: 4.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                offset: Offset(2, 4),
-                blurRadius: 4.0,
-                spreadRadius: 2.0,
-              )
-            ]),
-        child: OutlinedButton(
-            onPressed: () {},
-            child: Text('$num',
-                style: TextStyle(fontSize: 36.0, color: Colors.black54))),
+      child: InkWell(
+        onTap: () {
+          if (num == -1) {
+            print('Backspace');
+            setState(() {
+              var length = _input.length;
+              _input = _input.substring(0, length - 1);
+            });
+          } else {
+            print('$num');
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //     for (var i = 0; i < _num; i++)
+            //       Container(
+            //         width: 20.0,
+            //         height: 20.0,
+            //         margin: EdgeInsets.all(4.0),
+            //         decoration: BoxDecoration(
+            //           color: Colors.black54,
+            //           shape: BoxShape.circle,
+            //         ),
+            //       ),
+            //   ],
+            // );
+          }
+        },
+        borderRadius: BorderRadius.circular(MyHomePage.buttonSize / 2),
+        child: Container(
+          decoration: (num == -1)
+              ? null
+              : BoxDecoration(
+                  border: Border.all(width: 2.0),
+                  shape: BoxShape.circle,
+                ),
+          alignment: Alignment.center,
+          width: MyHomePage.buttonSize,
+          height: MyHomePage.buttonSize,
+          child: (num == -1)
+              ? const Icon(Icons.backspace)
+              : Text('$num',
+                  style: TextStyle(fontSize: 36.0, color: Colors.black54)),
+        ),
       ),
     );
   }
