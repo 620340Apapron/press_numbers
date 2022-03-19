@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
       if (_input == PIN) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else {
         _showOkDialog(context, 'Incorrect PIN', 'Please try again');
